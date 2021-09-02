@@ -1,0 +1,10 @@
+asgiref==3.4.1
+certifi==2021.5.30
+Django==3.2.6
+django-cors-headers==3.8.0
+djangorestframework==3.12.4
+mssql-django==1.0
+pyodbc==4.0.32
+pytz==2021.1
+sqlparse==0.4.1
+wincertstore==0.2
