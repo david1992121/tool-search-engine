@@ -12,25 +12,30 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env()
+environ.Env.read_env(".env")
+env.DB_SCHEMES.pop("mssql")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k1l#rv$379^x&t-0=qdn==jw(!mv((mwc_-!37b)7@x+(0u#(@'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'environ',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +45,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'user',
-    'program'
+    'program',
+    'qrcode'
 ]
 
 MIDDLEWARE = [
@@ -79,28 +85,30 @@ WSGI_APPLICATION = 'tooling.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'mssql',
-        'HOST': '192.168.0.254',
-        'USER': 'SA',
-        'PASSWORD': 'Solomon123!',
-        'PORT': '1433',
-        'NAME': 'CAM',
-        "OPTIONS": {
-            "driver": "ODBC Driver 17 for SQL Server"
-        }
-    },
-    'qr_codes': {
-        'ENGINE': 'mssql',
-        'HOST': '192.168.0.254',
-        'USER': 'SA',
-        'PASSWORD': 'Solomon123!',
-        'PORT': '1433',
-        'NAME': 'QR',
-        "OPTIONS": {
-            "driver": "ODBC Driver 17 for SQL Server"
-        }
-    }
+    # 'default': {
+    #     'ENGINE': 'mssql',
+    #     'HOST': '192.168.0.254',
+    #     'USER': 'SA',
+    #     'PASSWORD': 'Solomon123!',
+    #     'PORT': '1433',
+    #     'NAME': 'CAM',
+    #     "OPTIONS": {
+    #         "driver": "ODBC Driver 17 for SQL Server"
+    #     }
+    # },
+    # 'qr_codes': {
+    #     'ENGINE': 'mssql',
+    #     'HOST': '192.168.0.254',
+    #     'USER': 'SA',
+    #     'PASSWORD': 'Solomon123!',
+    #     'PORT': '1433',
+    #     'NAME': 'QR',
+    #     "OPTIONS": {
+    #         "driver": "ODBC Driver 17 for SQL Server"
+    #     }
+    # }
+    'default': env.db(),
+    'qr': env.db('QR_DB_URL')
 }
 
 # Password validation
@@ -165,5 +173,5 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8100'
+    'http://localhost:8100', 'http://192.168.0.100:8100', 'http://localhost'
 ]

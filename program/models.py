@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 class ProgramsList(models.Model):
+    id = models.AutoField("ID", db_column="ID", primary_key=True)
     onum = models.CharField("ONumber", max_length=255, db_column="ONumber")
     model_num = models.CharField("ModelNum", max_length=255, db_column="ModelNum", null=True)
     parts_name = models.CharField("PartsName", max_length=255, db_column="PartsName", null=True)
@@ -19,7 +20,10 @@ class ProgramsList(models.Model):
         db_table = "Programs_list"
 
 class ToolingsList(models.Model):
-    onum = models.CharField("ONumber", max_length=255, db_column="ONumber")
+    id = models.AutoField("ID", db_column="ID", primary_key=True)
+    program = models.ForeignKey(ProgramsList, related_name="toolings", verbose_name="Program", on_delete=models.CASCADE,
+        db_column="ProgramID", to_field="id")
+    onum = models.CharField("ONumber", max_length=255, db_column="ONumber")    
     item_code = models.CharField("ItemCode", max_length=255, db_column="ItemCode", null=True)
     files_name = models.CharField("FilesName", max_length=255, db_column="FilesName", null=True)
     create_date = models.CharField("CreateDate", max_length=50, db_column="CreateDate", null=True)
