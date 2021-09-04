@@ -1,10 +1,11 @@
-from user.serializers import UserSerializer
+from user.serializers import AvatarSerialzer, UserSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status
 from rest_framework.response import Response
 from .models import User, Token
-import random, string
+from django.conf import settings
+import random, string, os
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -54,3 +55,35 @@ def info(request):
     ユーザー情報の取得
     """
     return Response(UserSerializer(request.user).data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_avatar(request):
+    try:
+        avatar = AvatarSerialzer(data = request.data)
+        if avatar.is_valid():
+            old_avatar = request.user.avatar
+            user_dir = os.path.join(settings.BASE_DIR, 'static/avatar/{}'.format(request.user.id))
+            if not os.path.exists(user_dir):
+                os.makedirs(user_dir)
+            if old_avatar:
+                old_avatar.delete()
+            
+            request.user.avatar = avatar.validated_data.get('avatar')
+            request.user.save()
+            return Response(request.user.avatar.url)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        print(e)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def change_name(request):
+    name = request.data.get('name', "")
+    if name.strip() == "":
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    else:
+        request.user.name = name.strip()
+        request.user.save()
+        return Response(status=status.HTTP_200_OK)

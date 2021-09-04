@@ -9,4 +9,6 @@ urlpatterns = [
     path('login', login),
     path('register', register),
     path('info', info),
+    path('profile/image', add_avatar),
+    path('profile/name', change_name)
 ]

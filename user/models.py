@@ -1,11 +1,14 @@
-from django import db
+from django_resized import ResizedImageField
 from django.db import models
 
+def user_directory_path(instance, filename):
+    return 'static/avatar/{0}/{1}'.format(instance.id, filename)
 class User(models.Model):
     """ User Model """
     id = models.CharField("従業員番号", max_length=5, unique=True, primary_key=True, db_column="UserID")
     name = models.CharField('名前', max_length=100, null=True, db_column="UserName")
-    avatar = models.ImageField('アバター', null = True, upload_to = "static/avatar", db_column="Avatar")
+    avatar = ResizedImageField('アバター', size = [500, 500], crop = ['middle', 'center'], quality=75,
+        null = True, upload_to = user_directory_path, db_column="Avatar")
     
     class Meta:
         db_table = "Users"
