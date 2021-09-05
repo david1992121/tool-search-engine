@@ -5,7 +5,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from .models import ProgramsList, ToolingsList
 from django.db.models import Q
-import json
+from django.http.response import HttpResponse
+import json, os, mimetypes
+from wsgiref.util import FileWrapper
 
 # Create your views here.
 @api_view(['GET'])
@@ -63,5 +65,32 @@ def get_tools(request):
             return Response([])
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def download_pdf(request):
+    id_str = request.query_params.get("id", "")
+    type_str = request.query_params.get("type", "")
+
+    if id_str.strip() == "":
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    else:
+        try:
+            program = ProgramsList.objects.get(id = int(id_str))
+            folder_path = program.folder_path
+            if folder_path:
+                file_name = "{0}.pdf".format(program.onum) if type_str == "" else "{0}_3d.pdf".format(program.onum)
+                file_path = os.path.join(folder_path, file_name)
+                if os.path.exists(file_path):
+                    wrapper = FileWrapper(open(file_path,'rb'))
+                    response = HttpResponse(wrapper, content_type=mimetypes.guess_type(file_path)[0])
+                    response['Content-Length'] = os.path.getsize(file_path)
+                    response['Content-Disposition'] = "attachment; filename=" + file_name
+                    response['Access-Control-Expose-Headers'] = "Content-Disposition"
+                    return response
+                else:
+                    return Response(status=status.HTTP_404_NOT_FOUND)
+        except ProgramsList.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
