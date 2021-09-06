@@ -172,6 +172,8 @@ REST_FRAMEWORK = {
     ),
 }
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8100', 'http://192.168.0.100:8100', 'http://localhost'
-]
+# CORS_ORIGIN_WHITELIST = [
+#     'http://localhost:8100', 'http://192.168.0.100:8100', 'http://localhost', 'http://192.168.0.111'
+# ]
+
+CORS_ORIGIN_ALLOW_ALL = True
