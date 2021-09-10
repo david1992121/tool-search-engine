@@ -4,6 +4,7 @@ Django==3.2.7
 django-cors-headers==3.8.0
 django-environ==0.6.0
 django-resized==0.3.11
+django-simpleui==3.9.1
 djangorestframework==3.12.4
 mssql-django==1.0
 Pillow==8.3.2

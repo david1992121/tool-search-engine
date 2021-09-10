@@ -17,7 +17,10 @@ import environ
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env()
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+
 environ.Env.read_env(".env")
 if "mssql" in env.DB_SCHEMES.keys():
     env.DB_SCHEMES.pop("mssql")
@@ -37,6 +40,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'environ',
+    'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,7 +70,9 @@ ROOT_URLCONF = 'tooling.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, "templates")
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,7 +140,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja-jp'
 
 TIME_ZONE = 'UTC'
 
@@ -178,3 +184,50 @@ REST_FRAMEWORK = {
 # ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+# simple ui settings
+SIMPLEUI_HOME_INFO = False
+SIMPLEUI_HOME_ACTION = True
+SIMPLEUI_STATIC_OFFLINE = True
+
+SIMPLEUI_CONFIG = {
+    'system_keep': False,
+    'menu_display': ['ホーム', '基礎データ', 'ユーザーと権限'],
+    'menus': [        
+        {
+            'name': '基礎データ',
+            'icon': 'fa fa-database',
+            'models':[
+                {
+                    'name': 'プログラム',
+                    'icon': 'fa fa-book',
+                    'url': 'program/programslist'
+                },
+                {
+                    'name': 'ツール',
+                    'icon': 'fa fa-puzzle-piece',
+                    'url': 'program/toolingslist'
+                }
+            ]
+        },
+        {
+            'name': 'ユーザーと権限',
+            'icon': 'fas fa-shield-alt',
+            'models': [
+                {
+                    'name': 'ユーザー',
+                    'icon': 'fas fa-user',
+                    'url': 'user/user'
+                },
+                {
+                    'name': 'グループ',
+                    'icon': 'fas fa-users-cog',
+                    'url': 'auth/group'
+                }
+            ]
+        }
+    ]
+}
+
+SITE_HEADER = "検索サイト"
+SITE_TITLE = "検索サイト"
