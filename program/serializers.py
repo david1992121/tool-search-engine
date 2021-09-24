@@ -10,4 +10,12 @@ class ToolingSerializer(serializers.ModelSerializer):
     class Meta:
         fields = '__all__'
         model = ToolingsList
+
+class ToolingDataSerializer(serializers.Serializer):
+    tnum = serializers.CharField()
+    tool_name = serializers.CharField()
+    holder_name = serializers.CharField()
+    tooling = serializers.CharField()
+
+
         

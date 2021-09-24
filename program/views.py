@@ -1,4 +1,4 @@
-from program.serializers import ProgramSerializer, ToolingSerializer
+from program.serializers import ProgramSerializer, ToolingDataSerializer, ToolingSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
@@ -60,7 +60,8 @@ def get_tools(request):
         
         if len(id_array) > 0:
             toolings = ToolingsList.objects.filter(program__id__in = id_array).order_by('tooling', 'tnum')
-            return Response(ToolingSerializer(toolings, many = True).data)
+            distinct_toolings = toolings.values('tooling', 'tnum', 'tool_name', 'holder_name').distinct()
+            return Response(ToolingDataSerializer(distinct_toolings, many = True).data)
         else:
             return Response([])
     else:
