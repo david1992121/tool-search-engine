@@ -29,7 +29,7 @@ class ToolingsList(models.Model):
     create_date = models.CharField("CreateDate", max_length=50, db_column="CreateDate", null=True)
     tooling = models.CharField("Tooling", max_length=255, db_column="Tooling", null=True)
     folder_path = models.CharField("FolderPath", max_length=255, db_column="FolderPath", null=True)
-    tnum = models.CharField("TNumber", max_length=255, db_column="TNumber", null=True)
+    tnum = models.IntegerField("TNumber", db_column="TNumber", default = 0)
     tool_name = models.CharField("ToolName", max_length=255, db_column="ToolName", null=True)
     holder_name = models.CharField("HolderName", max_length=255, db_column="HolderName", null=True)
     cut_distance = models.DecimalField("CutDistance", max_digits=8, decimal_places=3, db_column="CutDistance", null=True)
