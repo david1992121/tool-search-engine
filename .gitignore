@@ -116,7 +116,7 @@ media/
 /static/avatar/*
 !/static/avatar/.keep
 /static/pdfs/*
-!/static/pdf/.keep
+!/static/pdfs/.keep
 /static/admin
 /static/rest_framework
 /static/import_export
