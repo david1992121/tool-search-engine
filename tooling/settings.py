@@ -231,3 +231,5 @@ SIMPLEUI_CONFIG = {
 
 SITE_HEADER = "検索サイト"
 SITE_TITLE = "検索サイト"
+
+CORS_ORIGIN_WHITELIST = ( 'http://localhost', )
