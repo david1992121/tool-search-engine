@@ -32,7 +32,7 @@ class ToolingsList(models.Model):
     tnum = models.IntegerField("TNumber", db_column="TNumber", default = 0)
     tool_name = models.CharField("ToolName", max_length=255, db_column="ToolName", null=True)
     holder_name = models.CharField("HolderName", max_length=255, db_column="HolderName", null=True)
-    cut_distance = models.DecimalField("CutDistance", max_digits=8, decimal_places=3, db_column="CutDistance", null=True)
+    cut_distance = models.DecimalField("CutDistance", max_digits=15, decimal_places=3, db_column="CutDistance", null=True)
 
     class Meta:
         db_table = "Toolings_list"
