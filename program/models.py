@@ -15,6 +15,9 @@ class ProgramsList(models.Model):
     folder_path = models.CharField("FolderPath", max_length=255, db_column="FolderPath", null=True)
     create_date = models.CharField("CreateDate", max_length=50, db_column="CreateDate", null=True)
     process_time = models.CharField("ProcessTime", max_length=50, db_column="ProcessTime", null=True)
+    size = models.CharField("Size", max_length=255, db_column="Size", null=True)
+    comment1 = models.CharField("Comment1", max_length=255, db_column="Comment1", null=True)
+    comment2 = models.CharField("Comment2", max_length=255, db_column="Comment2", null=True)
 
     class Meta:
         db_table = "Programs_list"
@@ -33,6 +36,7 @@ class ToolingsList(models.Model):
     tool_name = models.CharField("ToolName", max_length=255, db_column="ToolName", null=True)
     holder_name = models.CharField("HolderName", max_length=255, db_column="HolderName", null=True)
     cut_distance = models.DecimalField("CutDistance", max_digits=15, decimal_places=3, db_column="CutDistance", null=True)
+    tip_name = models.CharField("TipName", max_length=255, db_column="TipName", null=True)
 
     class Meta:
         db_table = "Toolings_list"
