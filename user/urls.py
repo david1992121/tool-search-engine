@@ -6,6 +6,7 @@ from django.urls import path, include
 from .views import *
 
 urlpatterns = [
+    path("", get_users),
     path('login', login),
     path('register', register),
     path('info', info),

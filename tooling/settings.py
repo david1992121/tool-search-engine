@@ -205,10 +205,14 @@ SIMPLEUI_CONFIG = {
                 },
                 {
                     'name': 'ツール',
-                    'icon': 'fa fa-puzzle-piece',
+                    'icon': 'fa fa-tools',
                     'url': 'program/toolingslist'
-                }
-            ]
+                },
+                {
+                    'name': 'パーマネント外',
+                    'icon': 'fa fa-archive',
+                    'url': 'program/nonepermanent'
+                }            ]
         },
         {
             'name': 'ユーザーと権限',

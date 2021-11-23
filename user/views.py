@@ -87,3 +87,9 @@ def change_name(request):
         request.user.name = name.strip()
         request.user.save()
         return Response(status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_users(request):
+    users = User.objects.all()
+    return Response(UserSerializer(users, many=True).data, status=status.HTTP_200_OK)
