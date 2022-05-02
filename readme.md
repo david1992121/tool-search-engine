@@ -1,5 +1,5 @@
 # Machine Tool Management Service
-Web service for searching and inpecting tools
+Web service for searching and inpecting machine tools
 
 ## Overview
 
