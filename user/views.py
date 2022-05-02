@@ -5,7 +5,10 @@ from rest_framework import status
 from rest_framework.response import Response
 from .models import User, Token
 from django.conf import settings
-import random, string, os
+import random
+import string
+import os
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -17,16 +20,23 @@ def login(request):
     if user_id != "":
         try:
             user = User.objects.get(id=user_id)
-            token, created = Token.objects.get_or_create(user=user) 
+            token, created = Token.objects.get_or_create(user=user)
             if created:
-                token.token = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
+                token.token = ''.join(
+                    random.choice(
+                        string.ascii_letters + string.digits
+                    ) for _ in range(32)
+                )
                 token.save()
 
-            return Response({"token": token.token, "data": UserSerializer(user).data}, status=status.HTTP_200_OK)
+            return Response({"token": token.token,
+                             "data": UserSerializer(user).data},
+                            status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -43,10 +53,11 @@ def register(request):
             user = User.objects.get(id=user_id)
             return Response(status=status.HTTP_409_CONFLICT)
         except User.DoesNotExist:
-            User.objects.create(id = user_id, name = user_name)
+            User.objects.create(id=user_id, name=user_name)
             return Response(status=status.HTTP_200_OK)
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -54,21 +65,26 @@ def info(request):
     """
     ユーザー情報の取得
     """
-    return Response(UserSerializer(request.user).data, status=status.HTTP_200_OK)
+    return Response(
+        UserSerializer(
+            request.user).data,
+        status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_avatar(request):
     try:
-        avatar = AvatarSerialzer(data = request.data)
+        avatar = AvatarSerialzer(data=request.data)
         if avatar.is_valid():
             old_avatar = request.user.avatar
-            user_dir = os.path.join(settings.BASE_DIR, 'static/avatar/{}'.format(request.user.id))
+            user_dir = os.path.join(settings.BASE_DIR,
+                                    'static/avatar/{}'.format(request.user.id))
             if not os.path.exists(user_dir):
                 os.makedirs(user_dir)
             if old_avatar:
                 old_avatar.delete()
-            
+
             request.user.avatar = avatar.validated_data.get('avatar')
             request.user.save()
             return Response(request.user.avatar.url)
@@ -76,6 +92,7 @@ def add_avatar(request):
             return Response(status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         print(e)
+
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
@@ -88,8 +105,13 @@ def change_name(request):
         request.user.save()
         return Response(status=status.HTTP_200_OK)
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_users(request):
     users = User.objects.all()
-    return Response(UserSerializer(users, many=True).data, status=status.HTTP_200_OK)
+    return Response(
+        UserSerializer(
+            users,
+            many=True).data,
+        status=status.HTTP_200_OK)

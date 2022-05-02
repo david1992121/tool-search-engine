@@ -193,11 +193,11 @@ SIMPLEUI_STATIC_OFFLINE = True
 SIMPLEUI_CONFIG = {
     'system_keep': False,
     'menu_display': ['ホーム', '基礎データ', 'ユーザーと権限'],
-    'menus': [        
+    'menus': [
         {
             'name': '基礎データ',
             'icon': 'fa fa-database',
-            'models':[
+            'models': [
                 {
                     'name': 'プログラム',
                     'icon': 'fa fa-book',
@@ -212,7 +212,7 @@ SIMPLEUI_CONFIG = {
                     'name': 'パーマネント外',
                     'icon': 'fa fa-archive',
                     'url': 'program/nonepermanent'
-                }            ]
+                }]
         },
         {
             'name': 'ユーザーと権限',
@@ -236,4 +236,4 @@ SIMPLEUI_CONFIG = {
 SITE_HEADER = "検索サイト"
 SITE_TITLE = "検索サイト"
 
-CORS_ORIGIN_WHITELIST = ( 'http://localhost', )
+CORS_ORIGIN_WHITELIST = ('http://localhost', )
