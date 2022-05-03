@@ -27,11 +27,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Verify unittest DB exists
-        run: mysql --host 127.0.0.1 --port 3306 -u root -e "SHOW DATABASES LIKE 'cam'"
+        run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'cam'"
       - name: Create 2nd Database
-        run: mysql --host 127.0.0.1 --port 3306 -u root -e "CREATE DATABASE IF NOT EXISTS qr;"
+        run: mysql --host 127.0.0.1 --port 3306 -uroot -e "CREATE DATABASE IF NOT EXISTS qr;"
       - name: Verify unittest_second DB exists
-        run: mysql --host 127.0.0.1 --port 3306 -u root -e "SHOW DATABASES LIKE 'qr'"
+        run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'qr'"
       - name: Set up python 3.9
         uses: actions/setup-python@v2
         with:
