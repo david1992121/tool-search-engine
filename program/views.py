@@ -123,7 +123,7 @@ def download_pdf(request):
                     shutil.copyfile(file_path, target_path)
                     return Response(
                         "{0}/{1}".format(branch_path, file_name), status=status.HTTP_200_OK)
-            return Response(status=status.HTTP_404_NOT_FOUND)            
+            return Response(status=status.HTTP_404_NOT_FOUND)
         except ProgramsList.DoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 

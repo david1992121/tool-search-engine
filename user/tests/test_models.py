@@ -35,10 +35,11 @@ class TestUser(TestCase):
     def test_is_authenticated(self):
         self.assertTrue(self.user.is_authenticated())
 
+
 class TestToken(TestCase):
     def setUp(self):
         self.user = User.objects.create(name="test-user")
-        self.token = Token.objects.create(user = self.user, token="1234567890")
+        self.token = Token.objects.create(user=self.user, token="1234567890")
 
     def test_user(self):
         self.assertEqual(self.token.user.id, self.user.id)

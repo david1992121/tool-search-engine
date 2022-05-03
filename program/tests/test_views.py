@@ -18,16 +18,16 @@ class TestProgramsAndTools(TestCase):
             tools=5
         )
         self.tooling = ToolingsList.objects.create(
-            program=self.program, onum="tooling-onum")               
-        
+            program=self.program, onum="tooling-onum")
+
     def create_user(self):
         self.user = User.objects.create(name="test-user", id="00001")
         self.token = Token.objects.create(
             user=self.user,
             token=''.join(
-                    random.choice(
-                        string.ascii_letters + string.digits
-                    ) for _ in range(32)
+                random.choice(
+                    string.ascii_letters + string.digits
+                ) for _ in range(32)
             ))
 
     def test_get_programs(self):
@@ -46,8 +46,8 @@ class TestProgramsAndTools(TestCase):
 
     def test_get_tools(self):
         auth_header = {'HTTP_AUTHORIZATION': '{}'.format(self.token.token)}
-        response = self.client.get(
-            reverse('tools-list'), {"program_ids": "[{}]".format(self.program.id)}, **auth_header)
+        response = self.client.get(reverse(
+            'tools-list'), {"program_ids": "[{}]".format(self.program.id)}, **auth_header)
         self.assertEqual(response.status_code, 200)
         res = json.loads(response.content)
         self.assertLessEqual(1, len(res))
@@ -63,16 +63,16 @@ class TestCheckHistoryDetail(TestCase):
     def setUp(self):
         self.create_user()
         self.history = ToolCheckHistory.objects.create(user=self.user)
-        self.detail = ToolCheckDetail.objects.create(history=self.history)               
-        
+        self.detail = ToolCheckDetail.objects.create(history=self.history)
+
     def create_user(self):
         self.user = User.objects.create(name="test-user", id="00001")
         self.token = Token.objects.create(
             user=self.user,
             token=''.join(
-                    random.choice(
-                        string.ascii_letters + string.digits
-                    ) for _ in range(32)
+                random.choice(
+                    string.ascii_letters + string.digits
+                ) for _ in range(32)
             ))
 
     def test_save_check_history(self):
@@ -104,14 +104,20 @@ class TestCheckHistoryDetail(TestCase):
 
     def test_get_check_history(self):
         auth_header = {'HTTP_AUTHORIZATION': '{}'.format(self.token.token)}
-        response = self.client.get(reverse('history-retrieve', kwargs={ 'id': self.history.id }), **auth_header)
+        response = self.client.get(
+            reverse(
+                'history-retrieve',
+                kwargs={
+                    'id': self.history.id}),
+            **auth_header)
         self.assertEqual(response.status_code, 200)
         res = json.loads(response.content)
         self.assertEqual(res["id"], self.history.id)
 
     def test_get_check_detail_list(self):
         auth_header = {'HTTP_AUTHORIZATION': '{}'.format(self.token.token)}
-        response = self.client.get(reverse('history-detail-list'), { 'detail_id': self.history.id }, **auth_header)
+        response = self.client.get(
+            reverse('history-detail-list'), {'detail_id': self.history.id}, **auth_header)
         self.assertEqual(response.status_code, 200)
         res = json.loads(response.content)
         self.assertLessEqual(1, len(res))

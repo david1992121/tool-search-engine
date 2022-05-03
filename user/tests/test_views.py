@@ -1,6 +1,5 @@
 
 
-
 import json
 import random
 import string
@@ -9,15 +8,16 @@ from django.test import TestCase
 from user.models import Token, User
 from django.urls import reverse
 
+
 class TestView(TestCase):
     def setUp(self):
         self.user = User.objects.create(name="test-user", id="00001")
         self.token = Token.objects.create(
             user=self.user,
             token=''.join(
-                    random.choice(
-                        string.ascii_letters + string.digits
-                    ) for _ in range(32)
+                random.choice(
+                    string.ascii_letters + string.digits
+                ) for _ in range(32)
             ))
 
     def test_register(self):
