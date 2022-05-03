@@ -120,4 +120,3 @@ media/
 /static/admin
 /static/rest_framework
 /static/import_export
-/qrcode/migrations/0001_initial.py
