@@ -56,8 +56,7 @@ class TestView(TestCase):
 
     def setUp(self):
         self.databases = '__all__'
-        self.qrcode = Qrcode.objects.using(
-            'qr').create(aufnr="sample", matnr="00001")
+        self.qrcode = Qrcode.objects.create(aufnr="sample", matnr="00001")
         self.user = User.objects.create(name="test-user", id="00001")
         self.token = Token.objects.create(
             user=self.user,

@@ -92,30 +92,7 @@ WSGI_APPLICATION = 'tooling.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'mssql',
-    #     'HOST': '192.168.0.254',
-    #     'USER': 'SA',
-    #     'PASSWORD': 'Solomon123!',
-    #     'PORT': '1433',
-    #     'NAME': 'CAM',
-    #     "OPTIONS": {
-    #         "driver": "ODBC Driver 17 for SQL Server"
-    #     }
-    # },
-    # 'qr_codes': {
-    #     'ENGINE': 'mssql',
-    #     'HOST': '192.168.0.254',
-    #     'USER': 'SA',
-    #     'PASSWORD': 'Solomon123!',
-    #     'PORT': '1433',
-    #     'NAME': 'QR',
-    #     "OPTIONS": {
-    #         "driver": "ODBC Driver 17 for SQL Server"
-    #     }
-    # }
-    'default': env.db(),
-    'qr': env.db('QR_DB_URL')
+    'default': env.db()
 }
 
 # Password validation

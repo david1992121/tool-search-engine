@@ -4,9 +4,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -25,19 +25,9 @@ jobs:
           MYSQL_DATABASE: cam
         ports: 
           - '3306:3306'
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Verify unittest DB exists        
-        run: |
-          mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'cam';"
-      - name: Create 2nd Database
-        run: mysql --host 127.0.0.1 --port 3306 -uroot -e "CREATE DATABASE IF NOT EXISTS qr;"
-      - name: Verify unittest_second DB exists
-        run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'qr';"
-      - name: Restart mysql server
-        run: sudo service mysql restart 
+      - uses: actions/checkout@v3      
       - name: Set up python 3.9
         uses: actions/setup-python@v2
         with:
@@ -51,7 +41,6 @@ jobs:
           DEBUG: off
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          QR_DB_URL: ${{ secrets.QR_DB_URL }}
         run: python manage.py migrate
       - name: 'Run PEP8'
         uses: quentinguidee/pep8-action@v1
@@ -62,7 +51,6 @@ jobs:
           DEBUG: off
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          QR_DB_URL: ${{ secrets.QR_DB_URL }}
         run: coverage run manage.py test
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v2
