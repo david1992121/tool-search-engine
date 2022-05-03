@@ -14,8 +14,6 @@ import shutil
 from django.core.paginator import EmptyPage, Paginator
 from datetime import datetime
 
-# Create your views here.
-
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -125,8 +123,7 @@ def download_pdf(request):
                     shutil.copyfile(file_path, target_path)
                     return Response(
                         "{0}/{1}".format(branch_path, file_name), status=status.HTTP_200_OK)
-                else:
-                    return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_404_NOT_FOUND)
         except ProgramsList.DoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -134,7 +131,6 @@ def download_pdf(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def save_check_history(request):
-
     serializer = ToolCheckSave(data=request.data)
     if serializer.is_valid():
         input_data = serializer.validated_data
@@ -146,7 +142,6 @@ def save_check_history(request):
             started_at=input_data["started_at"])
         return Response(ToolCheckHistorySerializer(tool_check_history).data)
     else:
-        print(serializer.errors)
         return Response(
             status=status.HTTP_400_BAD_REQUEST
         )
@@ -155,7 +150,6 @@ def save_check_history(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def save_check_detail(request):
-
     serializer = ToolCheckDetailSerializer(data=request.data, many=True)
     if serializer.is_valid():
         serializer.save()
