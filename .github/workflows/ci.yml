@@ -31,13 +31,11 @@ jobs:
       - name: Verify unittest DB exists        
         run: |
           sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'cam'"
+          mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'cam';"
       - name: Create 2nd Database
         run: mysql --host 127.0.0.1 --port 3306 -uroot -e "CREATE DATABASE IF NOT EXISTS qr;"
       - name: Verify unittest_second DB exists
-        run: |
-          mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'qr'"
-          \q
+        run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'qr';"
       - name: Set up python 3.9
         uses: actions/setup-python@v2
         with:
