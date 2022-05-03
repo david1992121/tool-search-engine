@@ -52,8 +52,6 @@ class TestModel(TestCase):
 
 
 class TestView(TestCase):
-    databases = {'default', 'qr'}
-
     def setUp(self):
         self.databases = '__all__'
         self.qrcode = Qrcode.objects.create(aufnr="sample", matnr="00001")
