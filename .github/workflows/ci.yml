@@ -35,7 +35,9 @@ jobs:
       - name: Create 2nd Database
         run: mysql --host 127.0.0.1 --port 3306 -uroot -e "CREATE DATABASE IF NOT EXISTS qr;"
       - name: Verify unittest_second DB exists
-        run: mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'qr'"
+        run: |
+          mysql --host 127.0.0.1 --port 3306 -uroot -e "SHOW DATABASES LIKE 'qr'"
+          \q
       - name: Set up python 3.9
         uses: actions/setup-python@v2
         with:
