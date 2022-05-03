@@ -1,3 +1,6 @@
+[![CI](https://github.com/david1992121/tool-search-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/david1992121/tool-search-engine/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/david1992121/tool-search-engine/branch/main/graph/badge.svg?token=QSWg1CKTVy)](https://codecov.io/gh/david1992121/tool-search-engine)
+
 # Machine Tool Management Service
 Web service for searching and inpecting machine tools
 
